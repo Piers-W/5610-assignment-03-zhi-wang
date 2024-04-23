@@ -1,85 +1,114 @@
-import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import MovieDetails from "../components/MovieDetails";
-import { BrowserRouter as Router } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+// detail.test.jsx
+import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Details from '../components/Details';
+import { BrowserRouter } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
-jest.mock("@auth0/auth0-react");
+jest.mock('@auth0/auth0-react');
 
-const mockGetAccessTokenSilently = jest.fn();
-const mockUser = {
-  sub: "auth0|123456",
-  name: "Test User"
-};
-
-useAuth0.mockReturnValue({
-  isAuthenticated: true,
-  user: mockUser,
-  getAccessTokenSilently: mockGetAccessTokenSilently
-});
-
-describe("MovieDetails Component Tests", () => {
+describe("Details Component Tests", () => {
   beforeEach(() => {
-    global.fetch = jest.fn(() =>
+    useAuth0.mockReturnValue({
+      isAuthenticated: true,
+      user: { sub: '123' },
+      getAccessTokenSilently: jest.fn(),
+    });
+  });
+
+  it("loads details and reviews on mount", async () => {
+    global.fetch = jest.fn((url) =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({
-          title: "Harry Potter",
-          year: "2001",
-          imdbID: "tt0295297",
-          poster: "http://example.com/potter.jpg",
-          reviews: [
-            { id: 1, userId: mockUser.sub, rating: 5, comment: "Great movie!", user: mockUser }
-          ]
-        })
+        json: () => url.includes('/reviews')
+          ? Promise.resolve([{ id: 1, comment: 'Great movie!', rating: 5, user: { name: 'User1', auth0Id: '123' } }])
+          : Promise.resolve({ id: 'tt123', title: 'Inception', year: '2010', poster: 'http://example.com/poster.jpg' })
       })
     );
-  });
 
-  test("renders movie details and reviews", async () => {
-    render(
-      <Router>
-        <MovieDetails />
-      </Router>
-    );
-
+    render(<BrowserRouter><Details /></BrowserRouter>);
     await waitFor(() => {
-      expect(screen.getByText("Harry Potter (2001)")).toBeInTheDocument();
-      expect(screen.getByText("Average Rating:")).toBeInTheDocument();
-      expect(screen.getByText("Great movie!")).toBeInTheDocument();
+      expect(screen.getByText('Inception (2010)')).toBeInTheDocument();
+      expect(screen.getByText(/Great movie!/i)).toBeInTheDocument();
     });
-  });
-
-  test("allows user to edit their review", async () => {
-    render(
-      <Router>
-        <MovieDetails />
-      </Router>
-    );
-
-    await waitFor(() => {
-      fireEvent.click(screen.getByText("Edit"));
-      const editTextArea = screen.getByLabelText("Type your comment here");
-      fireEvent.change(editTextArea, { target: { value: "Updated comment" } });
-      fireEvent.submit(screen.getByText("Update Review"));
-    });
-
-    expect(mockGetAccessTokenSilently).toHaveBeenCalled();
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining("api/reviews/1"), // Assuming the endpoint and ID of review
-      expect.objectContaining({
-        method: "PUT"
-      })
-    );
-  });
-
-  test("displays loading text initially", () => {
-    render(
-      <Router>
-        <MovieDetails />
-      </Router>
-    );
-
-    expect(screen.getByText("Loading movie details...")).toBeInTheDocument();
   });
 });
+
+// Test for submitting a new review
+it("handles submitting a new review correctly", async () => {
+    const userResponse = jest.fn();
+    global.fetch = jest.fn().mockImplementation((url, options) => {
+      if (options && options.method === 'POST') {
+        userResponse();
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            id: 2,
+            comment: 'Nice!',
+            rating: 4,
+            user: { name: 'User2', auth0Id: '124' }
+          })
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve([])
+      });
+    });
+  
+    render(<BrowserRouter><Details /></BrowserRouter>);
+    await waitFor(() => {
+      const commentInput = screen.getByPlaceholderText("Your comment");
+      fireEvent.change(commentInput, { target: { value: 'Nice!' } });
+      const ratingInput = screen.getByLabelText("Rate the movie from 1 to 5");
+      fireEvent.change(ratingInput, { target: { value: '4' } });
+  
+      const submitButton = screen.getByText("Submit Review");
+      expect(submitButton).not.toBeDisabled();  
+      fireEvent.click(submitButton);
+    });
+  
+    await waitFor(() => {
+      expect(userResponse).toHaveBeenCalled();  
+      expect(screen.getByText('Nice!')).toBeInTheDocument();  
+    });
+  });
+  
+// Test for editing a review
+it("allows user to edit their review", async () => {
+    global.fetch = jest.fn().mockImplementation((url, options = {}) => {
+      if (url.includes('reviews') && options.method === 'PUT') {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            id: 1,
+            comment: 'Updated review!',
+            rating: 5,
+            user: { name: 'User1', auth0Id: '123' }
+          })
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve([{
+          id: 1,
+          comment: 'Great movie!',
+          rating: 5,
+          user: { name: 'User1', auth0Id: '123' }
+        }])
+      });
+    });
+  
+    render(<BrowserRouter><Details /></BrowserRouter>);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText("Edit"));
+      fireEvent.change(screen.getByPlaceholderText("Your comment"), { target: { value: 'Updated review!' } });
+      fireEvent.click(screen.getByText("Update Review"));
+    });
+  
+    await waitFor(() => {
+      expect(screen.getByText("Updated review!")).toBeInTheDocument();  
+    });
+  });
+  
