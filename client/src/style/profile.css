@@ -1,0 +1,85 @@
+/* profile.css */
+.profile-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    flex: 0 0 auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-details {
+    flex: 1;
+    font-size: 16px;
+}
+
+.profile-details p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-actions button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-actions button:hover {
+    background-color: #0056b3;
+}
+
+.profile-favorites {
+    margin-top: 20px;
+}
+
+.profile-favorites h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.profile-favorites ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-favorites li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-favorites li:last-child {
+    border-bottom: none;
+}
+
+.profile-favorites a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.profile-favorites a:hover {
+    text-decoration: underline;
+}

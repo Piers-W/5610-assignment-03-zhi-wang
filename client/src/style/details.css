@@ -1,0 +1,68 @@
+/* 基本容器样式 */
+.movie-details-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.movie-title {
+  font-size: 24px;
+  color: #333;
+}
+
+.movie-year {
+  font-size: 18px;
+  color: #666;
+  margin-left: 10px;
+}
+
+.average-rating {
+  font-size: 20px;
+  color: #888;
+  margin-top: 10px;
+}
+
+.movie-poster {
+  max-width: 300px; /* 最大宽度限制为300像素 */
+  max-height: 450px; /* 最大高度限制为450像素 */
+  width: 30%;  /* 宽度相对于其容器宽度自适应，但不会超过max-width */
+  height: auto; /* 自动调整高度以保持宽高比 */
+  border-radius: 4px;
+  margin: 20px auto; /* 上下留有20px的空间，并在容器中居中 */
+  display: block;
+}
+
+
+.reviews-container {
+  margin-top: 20px;
+}
+
+.review {
+  background: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.review-user {
+  font-weight: bold;
+  color: #555;
+}
+
+.review-comment {
+  font-size: 16px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.review-rating {
+  font-size: 14px;
+  color: #999;
+  margin-top: 5px;
+}
+
+  
