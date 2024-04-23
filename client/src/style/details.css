@@ -1,10 +1,15 @@
-.movie-details-container {
-  max-width: 800px;
-  margin: auto;
+/* Base styles for MovieDetails */
+.movie-details {
   padding: 20px;
-  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+}
+
+.movie-content {
+  background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-top: 20px;
 }
 
 .movie-title {
@@ -12,56 +17,114 @@
   color: #333;
 }
 
-.movie-year {
+.movie-rating {
   font-size: 18px;
   color: #666;
-  margin-left: 10px;
-}
-
-.average-rating {
-  font-size: 20px;
-  color: #888;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .movie-poster {
-  max-width: 300px;
-  max-height: 450px; 
-  width: 30%;  
-  height: auto; 
+  max-width: 50%;  
+  height: auto;
   border-radius: 4px;
-  margin: 20px auto;
-  display: block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.review-form {
+  margin-top: 20px;
+}
+
+.review-textarea, .review-rating-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-review-btn, .update-review-btn, .edit-btn  {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;  
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.cancel-edit-btn, .delete-btn{
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;  
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.disabled-btn {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.update-review-btn:hover ,.edit-btn:hover{
+  background-color: #0056b3;
+}
+
+.delete-btn:hover, .cancel-edit-btn:hover {
+  background-color: #c82333; 
+}
+
+.edit-form {
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.review-rating-input {
+  width: 5%; 
+}
 
 .reviews-container {
   margin-top: 20px;
 }
 
-.review {
-  background: #fff;
-  padding: 15px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+.review-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
 }
 
 .review-user {
   font-weight: bold;
-  color: #555;
 }
 
-.review-comment {
-  font-size: 16px;
-  color: #333;
-  margin-top: 5px;
+.review-score {
+  color: #888;
 }
 
-.review-rating {
-  font-size: 14px;
-  color: #999;
-  margin-top: 5px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .movie-poster {
+      max-width: 100%;
+  }
+
+  .review-textarea, .review-rating-input, .submit-review-btn, .update-review-btn, .cancel-edit-btn {
+      width: 100%;  
+  }
+
+  .update-review-btn, .cancel-edit-btn {
+      margin-top: 10px;
+  }
 }
+
+@media (max-width: 480px) {
+  .movie-title, .movie-rating {
+      font-size: 16px;
+  }
+}
+
+
+
 
   

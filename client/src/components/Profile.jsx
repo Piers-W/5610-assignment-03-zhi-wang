@@ -1,42 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from 'react-router-dom';
 import '../style/profile.css';
 import NavigationBar from './NavigationBar';
 
 export default function Profile() {
-    const { user, getAccessTokenSilently } = useAuth0();
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [newUsername, setNewUsername] = useState('');
-    const [localUsername, setLocalUsername] = useState(''); 
+    const [localUsername, setLocalUsername] = useState('');
     const [showUpdate, setShowUpdate] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    
+    const [reviews, setReviews] = useState([]);
+
     useEffect(() => {
+        if (!user || !isAuthenticated) {
+            console.log("User not authenticated or user data is not available yet.");
+            return;
+        }
+
         const fetchUserDetails = async () => {
             const accessToken = await getAccessTokenSilently();
+            const userDetailsUrl = `http://localhost:8000/user/${user.sub}`;
+            const reviewsUrl = `http://localhost:8000/api/user/reviews`;
+
             try {
-                const response = await fetch(`http://localhost:8000/user/${user.sub}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
+                const userDetailsResponse = await fetch(userDetailsUrl, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
                 });
-                if (response.ok) {
-                    const data = await response.json();
-                    setLocalUsername(data.name); 
+                const reviewsResponse = await fetch(reviewsUrl, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+
+                if (userDetailsResponse.ok && reviewsResponse.ok) {
+                    const userData = await userDetailsResponse.json();
+                    const reviewData = await reviewsResponse.json();
+                    setLocalUsername(userData.name);
+                    setReviews(reviewData);
                     setIsLoading(false);
-                } else {
-                    console.error('Failed to fetch user details');
                 }
             } catch (error) {
-                console.error('Error fetching user details:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
-        if (user) {
-            fetchUserDetails();
-        }
-    }, [getAccessTokenSilently, user.sub, user]);
+        fetchUserDetails();
+    }, [user, isAuthenticated, getAccessTokenSilently]);
 
     const updateUsername = async () => {
+        if (!isAuthenticated) {
+            console.log("User not authenticated.");
+            return;
+        }
         const accessToken = await getAccessTokenSilently();
         const response = await fetch(`http://localhost:8000/user/${user.sub}/name`, {
             method: 'PUT',
@@ -49,7 +63,7 @@ export default function Profile() {
 
         if (response.ok) {
             const updatedUser = await response.json();
-            setLocalUsername(updatedUser.name);  
+            setLocalUsername(updatedUser.name);
             setShowUpdate(false);
             alert('Username updated successfully!');
         } else {
@@ -58,28 +72,54 @@ export default function Profile() {
         }
     };
 
+    if (!isAuthenticated) {
+        return <p>Loading or user not authenticated...</p>;
+    }
+
     return (
-        <div>
-            <NavigationBar />
-            <h1>Profile</h1>
-            <p>Email: {user.email}</p>
-            <p>Username: {isLoading ? 'Loading...' : localUsername}</p>
-            {showUpdate && (
-                <div>
-                    <input 
-                        value={newUsername} 
-                        onChange={(e) => setNewUsername(e.target.value)}
-                        placeholder="Enter new username"
-                    />
-                    <button onClick={updateUsername}>Save Username</button>
-                </div>
-            )}
-            <button onClick={() => setShowUpdate(!showUpdate)}>
-                {showUpdate ? 'Cancel Update' : 'Update Username'}
-            </button>
-            <button onClick={() => window.location.href = '/debugger'}>Go to Debugger</button>
+        <div className="profile-container">
+            <NavigationBar /> 
+            <main> 
+                <h1 className="profile-header">Profile</h1>
+                <section aria-labelledby="account-info"> 
+                    <h2 id="account-info" className="visually-hidden">Account Information</h2>
+                    <p className="profile-detail"><span>Email:</span> {user.email}</p>
+                    <p className="profile-detail"><span>Username:</span> {isLoading ? 'Loading...' : localUsername}</p>
+                </section>
+                {showUpdate ? (
+                    <form className="profile-update-form" onSubmit={updateUsername}> {/* Use form for proper semantic */}
+                        <label htmlFor="new-username" className="visually-hidden">New Username</label> {/* Label for accessibility */}
+                        <input 
+                            id="new-username"
+                            value={newUsername} 
+                            onChange={(e) => setNewUsername(e.target.value)}
+                            placeholder="Enter new username"
+                            aria-required="true" // Explicitly specify required for accessibility
+                        />
+                        <div className="button-group">
+                            <button type="submit" className="button-Save">Save Username</button>
+                            <button type="button" className="button-Cancel" onClick={() => setShowUpdate(false)}>Cancel Update</button>
+                        </div>
+                    </form>
+                ) : (
+                    <button className="button-style" onClick={() => setShowUpdate(true)}>
+                        Update Username
+                    </button>
+                )}
+                <section aria-labelledby="reviews-heading"> {/* Use section with aria-labelledby */}
+                    <h2 id="reviews-heading">Your Reviews</h2>
+                    {reviews.map(review => (
+                        <div key={review.id} className="review-item">
+                            <Link to={`/details/${review.movie.imdbID}`}>{review.movie.title}</Link>
+                            <p>Rating: {review.rating}</p>
+                            <p>{review.comment}</p>
+                        </div>
+                    ))}
+                </section>
+            </main>
+            <button className="debug-button" onClick={() => window.location.href = '/debugger'}>Go to Debugger</button>
         </div>
-    );
+    );    
 }
 
 

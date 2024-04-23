@@ -49,9 +49,9 @@ root.render(
             <Route path="/details/:imdbID" element={<Details />} />
             <Route path="/debugger" element={<AuthDebugger />} />
             <Route path="/profile" element={
-              <RequireAuth>
+               <RequireAuth>
                 <Profile />
-              </RequireAuth>
+               </RequireAuth>
             } />
             <Route path="*" element={<NotFound />} />
           </Routes>

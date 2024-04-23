@@ -1,85 +1,117 @@
-/* profile.css */
+/* Profile page base styles */
 .profile-container {
-    max-width: 800px;
+    max-width: 960px; 
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: #f8f9fa;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .profile-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.profile-avatar {
-    flex: 0 0 auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
-}
-
-.profile-details {
-    flex: 1;
-    font-size: 16px;
-}
-
-.profile-details p {
-    margin: 5px 0;
+    text-align: center;
     color: #333;
 }
 
-.profile-actions {
-    text-align: center;
+.profile-detail {
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-detail span {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.profile-update-form {
     margin-top: 20px;
 }
 
-.profile-actions button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.input, .button-style {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 20%;
 }
 
-.profile-actions button:hover {
+.button-style {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 20%;
+}
+
+.button-Save {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 20%; 
+}
+
+.button-Cancel {
+    background-color: #ff0033;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 20%; 
+}
+
+
+.button-style:hover {
     background-color: #0056b3;
 }
 
-.profile-favorites {
+.button-group button {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.button-group button:last-child {
+    margin-right: 0;
+}
+
+.debug-button {
+    background-color: #ffc107;
+    color: black;
+    width: auto; 
+    padding: 10px 15px;
     margin-top: 20px;
 }
 
-.profile-favorites h2 {
-    font-size: 24px;
-    color: #333;
+.debug-button:hover {
+    background-color: #e0a800;
 }
 
-.profile-favorites ul {
-    list-style: none;
-    padding: 0;
+/* Responsive adjustments for tablets */
+@media (max-width: 768px) {
+    .profile-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .button-style, .debug-button, .input {
+        width: 100%; /* Full width for smaller devices */
+    }
 }
 
-.profile-favorites li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+/* Responsive adjustments for phones */
+@media (max-width: 480px) {
+    .profile-header {
+        font-size: 18px; /* Smaller font size for smaller screens */
+    }
+
+    .profile-detail {
+        font-size: 14px;
+    }
+
+    .button-style, .debug-button {
+        font-size: 14px; /* Smaller font size for better readability on phones */
+    }
 }
 
-.profile-favorites li:last-child {
-    border-bottom: none;
-}
 
-.profile-favorites a {
-    text-decoration: none;
-    color: #007bff;
-}
 
-.profile-favorites a:hover {
-    text-decoration: underline;
-}

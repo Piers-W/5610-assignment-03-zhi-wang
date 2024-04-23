@@ -1,38 +1,54 @@
-/* NavigationBar.css */
+/* Navigation bar styles */
 .navigation-bar {
-    background-color: #2c3e50; 
-    color: #ecf0f1; 
+    background-color: #2c3e50; /* Dark blue background */
+    color: white;
     padding: 10px 20px;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-}
-
-.navigation-bar h1 {
-    margin: 0; 
-    font-size: 24px; 
-}
-
-.navigation-bar nav {
-    display: flex; 
-    align-items: center; 
-}
-
-.navigation-bar a, .navigation-bar button {
-    color: inherit; 
-    background: none; 
-    border: none; 
-    padding: 8px 15px; 
-    margin-left: 10px; 
-    text-decoration: none; 
-    font-size: 16px; 
-    cursor: pointer; 
-    border-radius: 4px; 
-    transition: background-color 0.3s, color 0.3s; 
-}
-
-.navigation-bar a:hover, .navigation-bar button:hover {
-    background-color: #34495e; 
-    color: #ffffff;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navigation-bar h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .navigation-bar nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navigation-bar a, .navigation-bar button {
+    color: white;
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navigation-bar a:hover, .navigation-bar button:hover {
+    background-color: #34495e; /* Slightly lighter blue for hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .navigation-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .navigation-bar nav {
+      width: 100%;
+      justify-content: center;
+    }
+  
+    .navigation-bar a, .navigation-bar button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  

@@ -4,11 +4,11 @@ import NavigationBar from './NavigationBar';
 import '../style/home.css';
 
 const Home = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]); // State to store fetched movies
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = 'https://movie-database-alternative.p.rapidapi.com/?s=harry potter&r=json&page=1';
+      const url = 'https://movie-database-alternative.p.rapidapi.com/?s=harry potter&r=json&page=1'; // URL for fetching movie data
       const options = {
         method: 'GET',
         headers: {
@@ -18,69 +18,75 @@ const Home = () => {
       };
 
       try {
-        const response = await fetch(url, options);
-        const data = await response.json();
+        const response = await fetch(url, options); // Fetch movie data from the API
+        const data = await response.json(); // Parse the JSON response
         if (data && data.Search) {
-          setMovies(data.Search);
-          data.Search.forEach(movie => saveMovieToDatabase(movie)); 
+          setMovies(data.Search); // Set the fetched movies in state
+          data.Search.forEach(movie => saveMovieToDatabase(movie)); // Save each movie to the database
         }
       } catch (error) {
-        console.error('Error fetching data: ', error);
+        console.error('Error fetching data: ', error); // Log any errors that occur during fetching
       }
     };
 
-    fetchData();
+    fetchData(); // Call the fetchData function when the component mounts
   }, []);
 
+  // Function to save movie data to the backend database
   const saveMovieToDatabase = async (movie) => {
     try {
-        const response = await fetch('http://localhost:8000/api/movies', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: movie.Title,
-                year: movie.Year,
-                imdbID: movie.imdbID,
-                type: movie.Type,
-                poster: movie.Poster
-            })
-        });
+      const response = await fetch('http://localhost:8000/api/movies', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: movie.Title,
+          year: movie.Year,
+          imdbID: movie.imdbID,
+          type: movie.Type,
+          poster: movie.Poster
+        })
+      });
 
-        if (response.status === 204) {
-            console.log('Movie already exists or was processed without content being returned.');
-            return; 
-        }
+      if (response.status === 204) {
+        console.log('Movie already exists or was processed without content being returned.');
+        return;
+      }
 
-        const result = await response.json();
-        if (!response.ok) {
-            console.error(`Failed to save the movie: ${movie.Title}`, result);
-        } else {
-            console.log('Movie saved:', result);
-        }
+      const result = await response.json();
+      if (!response.ok) {
+        console.error(`Failed to save the movie: ${movie.Title}`, result);
+      } else {
+        console.log('Movie saved:', result);
+      }
     } catch (error) {
-        console.error('Failed to save the movie:', error);
+      console.error('Failed to save the movie:', error);
     }
-};
-
+  };
 
   return (
-    <div className="home">
-      <h1>Movie Rating</h1>
-      <NavigationBar />
-      <h1>Featured Movies</h1>
-      <ul>
+    <div className="home-container" role="main">
+      <NavigationBar /> {/* Navigation bar component */}
+      <header className="home-header">
+        <h1>Movie Rating Platform</h1> {/* Main heading */}
+        <h2>Featured Movies</h2> {/* Subheading */}
+      </header>
+      <ul className="movie-list">
+        {/* Render each movie as a list item */}
         {movies.map(movie => (
-          <li key={movie.imdbID}>
-            <img src={movie.Poster} alt={movie.Title} />
-            <h2><Link to={`/details/${movie.imdbID}`}>{movie.Title}</Link></h2>
+          <li key={movie.imdbID} className="movie-item">
+            <img src={movie.Poster} alt={`${movie.Title} movie poster`} className="movie-poster" /> {/* Movie poster */}
+            <h3 className="movie-title">
+              <Link to={`/details/${movie.imdbID}`}>{movie.Title}</Link> {/* Link to movie details */}
+            </h3>
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default Home;
+
 

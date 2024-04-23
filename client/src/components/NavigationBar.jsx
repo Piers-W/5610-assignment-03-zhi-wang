@@ -15,21 +15,27 @@ const NavigationBar = () => {
     return (
         <header className="navigation-bar">
             <h1>Movie Rating</h1>
-            <nav>
-                <Link to="/">Main</Link>
+            <nav aria-label="Main navigation"> {/* Adding aria-label to describe the purpose of the navigation */}
+                <Link to="/" className="nav-link">Main</Link>
                 {isAuthenticated ? (
                     <>
-                        <Link to="/profile">Profile</Link>
-                        <button onClick={() => logout({ returnTo: window.location.origin })}>
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                        <button className="nav-button" onClick={() => logout({ returnTo: window.location.origin })}
+                            aria-label="Logout" // Adding aria-label for clarity on the action
+                        >
                             Logout
                         </button>
                     </>
                 ) : (
-                    <button onClick={handleLogin}>Login</button>  // 使用 handleLogin 而不是直接 loginWithRedirect
+                    <button className="nav-button" onClick={handleLogin}
+                        aria-label="Login" // Adding aria-label for clarity on the action
+                    >
+                        Login
+                    </button>
                 )}
             </nav>
         </header>
-    );
+    );    
 };
 
 export default NavigationBar;

@@ -1,0 +1,70 @@
+/* AuthDebugger styles */
+
+.app-container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Add this to prevent horizontal overflow */
+}
+
+.token-display, .user-info-display {
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.token-label, .user-info-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.token-value, .user-info-value {
+    font-size: 14px;
+    color: #495057;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    white-space: pre-wrap; /* Ensures the preformatted text wraps */
+    word-break: break-all; /* Breaks the word to prevent overflow */
+}
+
+/* Responsive adjustments for tablets */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .token-label, .user-info-label {
+        font-size: 15px;
+    }
+
+    .token-value, .user-info-value {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
+
+/* Responsive adjustments for phones */
+@media (max-width: 480px) {
+    .app-container {
+        padding: 10px;
+        margin: 5px;
+    }
+
+    .token-label, .user-info-label {
+        font-size: 14px;
+    }
+
+    .token-value, .user-info-value {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
