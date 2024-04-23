@@ -13,6 +13,7 @@ const requireAuth = auth({
   tokenSigningAlg: "RS256",
 });
 
+const PORT = parseInt(process.env.PORT) || 8080;
 const app = express();
 
 app.use(cors());
@@ -372,7 +373,7 @@ app.put('/api/reviews/:reviewId', requireAuth, async (req, res) => {
 });
 
 // Start server
-const PORT = parseInt(process.env.PORT) || 8080;
+
 app.listen(PORT, () => {
  console.log(`Server running on http://localhost:${PORT} 🎉 🚀`);
 });
