@@ -67,7 +67,7 @@ app.post("/verify-user", requireAuth, async (req, res) => {
 });
 
 // Endpoint to add a movie
-app.post('/api/movies', async (req, res) => {
+app.post('/movies', async (req, res) => {
   const { title, year, imdbID, type, poster } = req.body;
   
   try {
@@ -89,7 +89,7 @@ app.post('/api/movies', async (req, res) => {
 });
 
 // Endpoint to get reviews for a movie
-app.get('/api/movies/:imdbID/reviews', async (req, res) => {
+app.get('/movies/:imdbID/reviews', async (req, res) => {
   const { imdbID } = req.params; 
 
   try {
@@ -162,7 +162,7 @@ app.get('/user/:auth0Id', requireAuth, async (req, res) => {
 });
 
 // Get user's reviews endpoint
-app.get('/api/user/reviews', requireAuth, async (req, res) => {
+app.get('/user/reviews', requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub; 
   
   try {
@@ -189,7 +189,7 @@ app.get('/api/user/reviews', requireAuth, async (req, res) => {
 });
 
 // Get movie details endpoint
-app.get('/api/movies/:imdbID', async (req, res) => {
+app.get('/movies/:imdbID', async (req, res) => {
   const { imdbID } = req.params; 
 
   try {
@@ -208,7 +208,7 @@ app.get('/api/movies/:imdbID', async (req, res) => {
 });
 
 // Get reviews for a movie endpoint
-app.get('/api/movies/:imdbID/reviews', async (req, res) => {
+app.get('/movies/:imdbID/reviews', async (req, res) => {
   const { imdbID } = req.params; 
 
   try {
@@ -240,7 +240,7 @@ app.get('/api/movies/:imdbID/reviews', async (req, res) => {
 });
 
 // Add review endpoint
-app.post('/api/reviews', requireAuth, async (req, res) => {
+app.post('/reviews', requireAuth, async (req, res) => {
   const { userId, movieId, comment, rating } = req.body;
 
   // Validate the comment and rating
@@ -295,7 +295,7 @@ app.post('/api/reviews', requireAuth, async (req, res) => {
 });
 
 // Delete review endpoint
-app.delete('/api/reviews/:reviewId', requireAuth, async (req, res) => {
+app.delete('/reviews/:reviewId', requireAuth, async (req, res) => {
   const { reviewId } = req.params;  
   const auth0UserId = req.auth.payload.sub;  
 
@@ -327,7 +327,7 @@ app.delete('/api/reviews/:reviewId', requireAuth, async (req, res) => {
 });
 
 // Update review endpoint
-app.put('/api/reviews/:reviewId', requireAuth, async (req, res) => {
+app.put('/reviews/:reviewId', requireAuth, async (req, res) => {
   const { reviewId } = req.params;
   const { userId, comment, rating } = req.body;
 
