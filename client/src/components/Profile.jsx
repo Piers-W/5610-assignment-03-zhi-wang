@@ -21,7 +21,7 @@ export default function Profile() {
         const fetchUserDetails = async () => {
             const accessToken = await getAccessTokenSilently();
             const userDetailsUrl = `https://assignment-03-zhi-wang.onrender.com/user/${user.sub}`;
-            const reviewsUrl = `https://assignment-03-zhi-wang.onrender.com/user/reviews`;
+            const reviewsUrl = `https://assignment-03-zhi-wang.onrender.com/api/user/reviews`;
 
             try {
                 const userDetailsResponse = await fetch(userDetailsUrl, {
