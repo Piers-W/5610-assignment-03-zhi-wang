@@ -35,7 +35,7 @@ const Home = () => {
   // Function to save movie data to the backend database
   const saveMovieToDatabase = async (movie) => {
     try {
-      const response = await fetch('https://assignment-03-zhi-wang.onrender.com/api/movies', {
+      const response = await fetch('https://five610-assignment-03-zhi-wang.onrender.com/api/movies', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

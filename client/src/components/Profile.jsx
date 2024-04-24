@@ -20,8 +20,8 @@ export default function Profile() {
 
         const fetchUserDetails = async () => {
             const accessToken = await getAccessTokenSilently();
-            const userDetailsUrl = `https://assignment-03-zhi-wang.onrender.com/user/${user.sub}`;
-            const reviewsUrl = `https://assignment-03-zhi-wang.onrender.com/api/user/reviews`;
+            const userDetailsUrl = `https://five610-assignment-03-zhi-wang.onrender.com/user/${user.sub}`;
+            const reviewsUrl = `https://five610-assignment-03-zhi-wang.onrender.com/api/user/reviews`;
 
             try {
                 const userDetailsResponse = await fetch(userDetailsUrl, {
@@ -52,7 +52,7 @@ export default function Profile() {
             return;
         }
         const accessToken = await getAccessTokenSilently();
-        const response = await fetch(`https://assignment-03-zhi-wang.onrender.com/user/${user.sub}/name`, {
+        const response = await fetch(`https://five610-assignment-03-zhi-wang.onrender.com/user/${user.sub}/name`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

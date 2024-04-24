@@ -23,8 +23,8 @@ const MovieDetails = () => {
 
   // Fetch movie details and reviews from server
   const fetchMovieAndReviews = async () => {
-    const movieResponse = await fetch(`http://localhost:8000/api/movies/${imdbID}`);
-    const reviewsResponse = await fetch(`http://localhost:8000/api/movies/${imdbID}/reviews`);
+    const movieResponse = await fetch(`https://five610-assignment-03-zhi-wang.onrender.com/api/movies/${imdbID}`);
+    const reviewsResponse = await fetch(`https://five610-assignment-03-zhi-wang.onrender.com/api/movies/${imdbID}/reviews`);
 
     if (movieResponse.ok) {
       const movieData = await movieResponse.json();
@@ -54,7 +54,7 @@ const MovieDetails = () => {
     }
 
     const accessToken = await getAccessTokenSilently();
-    const response = await fetch('https://assignment-03-zhi-wang.onrender.com/api/reviews', {
+    const response = await fetch('https://five610-assignment-03-zhi-wang.onrender.com/api/reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const MovieDetails = () => {
   // Handle deletion of a review
   const handleDeleteReview = async (reviewId) => {
     const accessToken = await getAccessTokenSilently();
-    const response = await fetch(`https://assignment-03-zhi-wang.onrender.com/api/reviews/${reviewId}`, {
+    const response = await fetch(`https://five610-assignment-03-zhi-wang.onrender.com/api/reviews/${reviewId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const MovieDetails = () => {
   const handleEditReview = async (e) => {
     e.preventDefault();
     const accessToken = await getAccessTokenSilently();
-    const response = await fetch(`https://assignment-03-zhi-wang.onrender.com/api/reviews/${editingReviewId}`, {
+    const response = await fetch(`https://five610-assignment-03-zhi-wang.onrender.com/api/reviews/${editingReviewId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -207,38 +207,6 @@ app.get('/api/movies/:imdbID', async (req, res) => {
   }
 });
 
-// Get reviews for a movie endpoint
-app.get('/api/movies/:imdbID/reviews', async (req, res) => {
-  const { imdbID } = req.params; 
-
-  try {
-    const movie = await prisma.movie.findUnique({
-      where: { imdbID: imdbID }
-    });
-    if (!movie) {
-      return res.status(404).json({ message: 'Movie not found.' });
-    }
-
-    const reviews = await prisma.review.findMany({
-      where: { movieId: movie.id },
-      include: {
-        user: true 
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
-
-    if (reviews.length === 0) {
-      return res.status(404).json({ message: 'No reviews found for this movie.' });
-    }
-    res.status(200).json(reviews);
-  } catch (error) {
-    console.error('Failed to retrieve reviews for movie with imdbID:', imdbID, error);
-    res.status(500).json({ message: 'Failed to retrieve the reviews' });
-  }
-});
-
 // Add review endpoint
 app.post('/api/reviews', requireAuth, async (req, res) => {
   const { userId, movieId, comment, rating } = req.body;
